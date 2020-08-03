@@ -1,22 +1,33 @@
-import requests
-from bs4 import BeautifulSoup
-from decimal import Decimal
+from datetime import date
 
 
-def to_decimal(num) -> Decimal:
-    return round(Decimal(num), 2)
-
-
-url = 'https://minfin.com.ua/currency/'
-response = requests.get(url)
-
-soup = BeautifulSoup(response.text, 'html.parser')
-items = (soup.find_all('td', {'data-title': 'Черный рынок'}))
-list_cur = [item.text.replace('\n', '').replace(',','.') for item in items]
-list_cur = list_cur[0:2]
-amounts = []
-for l in list_cur:
-    amounts += l.split(' /')
-for i in range(len(amounts)):
-    amounts[i] = to_decimal(amounts[i])
-print(amounts)
+d = date.today()
+start_year = d.year - 5
+start_day = d.day
+start_month = d.month
+num_days = {
+    1: 31,
+    2: 28,  # can be 29
+    3: 31,
+    4: 30,
+    5: 31,
+    6: 30,
+    7: 31,
+    8: 31,
+    9: 30,
+    10: 31,
+    11: 30,
+    12: 31,
+    }
+dates = []
+for year in range(start_year, d.year+1):
+    if year % 4 == 0:
+        num_days[2] = 29
+    else:
+        num_days[2] = 28
+    for month in range(start_month, 13):
+        for day in range(start_day, num_days[month]+1):
+            print(f'{day}.{month}.{year}')
+                # dates.append(f'{day}.{month}.{year}')
+        start_day = 1
+    start_month = 1

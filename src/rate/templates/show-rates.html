@@ -2,18 +2,21 @@
 
 
 {% block content %}
-<table>
+<a href = "{% url 'rate:download-csv' %}">Download XLSX</a>
+
+<table class="table table-striped">
     <tr>
-        <th>ID</th> <th>Date created</th> <th>Source</th> <th>Currency</th> <th>Sale/Buy</th> <th>Amount</th>
+        <th>#</th> <th>ID</th> <th>Date created</th> <th>Source</th> <th>Currency</th> <th>Sale/Buy</th> <th>Amount</th>
     </tr>
     {% for i in object_list %}
     <tr>
-        <td><p>{{ i.id }}</p></td>
-        <td><p>{{ i.created }}</p></td>
-        <td><p>{{ i.get_source_display }}</p></td>
-        <td><p>{{ i.get_currency_type_display }}</p></td>
-        <td><p>{{ i.get_type_display }}</p></td>
-        <td><p>{{ i.amount }}</p></td>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ i.id }}</td>
+        <td>{{ i.created }}</td>
+        <td>{{ i.get_source_display }}</td>
+        <td>{{ i.get_currency_type_display }}</td>
+        <td>{{ i.get_type_display }}</td>
+        <td>{{ i.amount }}</td>
     </tr>
     {% endfor %}
 </table>
