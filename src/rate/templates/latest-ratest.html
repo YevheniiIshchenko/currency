@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<table class="table table-striped">
+    <tr>
+        <th>#</th> <th>ID</th> <th>Date created</th> <th>Source</th> <th>Currency</th> <th>Sale/Buy</th> <th>Amount</th>
+    </tr>
+    {% for i in object_list %}
+    <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ i.id }}</td>
+        <td>{{ i.created }}</td>
+        <td>{{ i.get_source_display }}</td>
+        <td>{{ i.get_currency_type_display }}</td>
+        <td>{{ i.get_type_display }}</td>
+        <td>{{ i.amount }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock content %}

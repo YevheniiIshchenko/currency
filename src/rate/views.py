@@ -1,15 +1,11 @@
 from django.http import HttpResponse
-from django.views.generic import ListView, View
+from django.views.generic import ListView, TemplateView, View
 
 from openpyxl import Workbook
 
 from rate.models import Rate
+from rate.selectors import get_latest_rates
 
-
-# def show_rates(request):
-#    items = Rate.objects.all()
-#    content = {'items': items}
-#    return render(request, 'show-rates.html', context=content)
 
 def display_atr(rate, atr):
     if hasattr(rate, f'get_{atr}_display'):
@@ -20,8 +16,17 @@ def display_atr(rate, atr):
 
 class RateListView(ListView):
     model = Rate
-    queryset = Rate.objects.all()
+    queryset = Rate.objects.all().order_by('created').iterator()
     template_name = 'show-rates.html'
+
+
+class LatestRates(TemplateView):
+    template_name = 'latest-ratest.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['object_list'] = get_latest_rates()
+        return context
 
 
 class RateDownloadCSV(View):
@@ -57,4 +62,3 @@ class RateDownloadCSV(View):
 
         workbook.save(response)
         return response
-

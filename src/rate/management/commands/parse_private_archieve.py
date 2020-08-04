@@ -1,5 +1,3 @@
-import requests
-
 from datetime import date, datetime
 from unittest.mock import patch
 
@@ -9,6 +7,7 @@ from django.utils import timezone
 from rate import model_choices as mch
 from rate.models import Rate
 
+import requests
 
 
 def create_dates() -> list:
