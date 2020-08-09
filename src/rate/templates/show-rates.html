@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 
+{% block title %} Show Rates {% endblock title%}
 
 {% block content %}
 <a href = "{% url 'rate:download-csv' %}">Download XLSX</a>
@@ -17,6 +18,10 @@
         <td>{{ i.get_currency_type_display }}</td>
         <td>{{ i.get_type_display }}</td>
         <td>{{ i.amount }}</td>
+        {% if user.is_superuser %}
+            <td><a href="{% url 'rate:edit-rate' i.id %}">Edit</a></td>
+            <td><a href="{% url 'rate:delete-rate' i.id %}">Delete</a></td>
+        {% endif %}
     </tr>
     {% endfor %}
 </table>

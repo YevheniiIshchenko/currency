@@ -1,5 +1,8 @@
 from django.http import HttpResponse
-from django.views.generic import ListView, TemplateView, View
+from django.urls import reverse_lazy
+from django.views.generic import ListView, TemplateView, View, UpdateView, DeleteView
+from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.auth.mixins import UserPassesTestMixin
 
 from openpyxl import Workbook
 
@@ -62,3 +65,22 @@ class RateDownloadCSV(View):
 
         workbook.save(response)
         return response
+
+
+class EditRate(UserPassesTestMixin, UpdateView):
+    template_name = 'edit-rate.html'
+    queryset = Rate.objects.all()
+    fields = ('source', 'currency_type', 'type', 'amount')
+    success_url = reverse_lazy('rate:show-rates')
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+
+class DeleteRate(UserPassesTestMixin, DeleteView):
+    template_name = 'delete-rate.html'
+    model = Rate
+    success_url = reverse_lazy('rate:show-rates')
+
+    def test_func(self):
+        return self.request.user.is_staff

@@ -13,7 +13,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '9qv*g3o2=2@-p0jsu_^rq73vj$_s7=k8yzlt*&-e5bqg8arb2q'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'django_extensions',
+    'crispy_forms',
 
     'account',
     'rate',
@@ -114,6 +115,10 @@ USE_TZ = False
 
 STATIC_URL = '/static/'
 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static")
+]
+
 AUTH_USER_MODEL = 'account.User'
 
 CELERY_BROKER_URL = 'amqp://localhost'
@@ -124,3 +129,15 @@ CELERY_BEAT_SCHEDULE = {
         'schedule': crontab(minute='*/15'),
     }
 }
+
+CRISPY_TEMPLATE_PACK = 'uni_form'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = ''  # here was a real email
+EMAIL_HOST_PASSWORD = ''  # here was a real password
+
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
