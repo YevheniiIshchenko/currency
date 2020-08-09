@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block title%} Edit Rate {% endblock title %}
+
+{% block content %}
+<p>Edit Rate</p>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <p>Are you sure to delete "{{ object }}" ?</p>
+    <button type="submit" class="btn btn-dark">Yes</button>
+</form>
+{% endblock content %}
